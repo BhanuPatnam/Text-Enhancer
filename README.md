@@ -104,10 +104,10 @@ The frontend calls http://localhost:3000/enhance directly. CORS is enabled for l
 
 ## Screenshots
 <p align="center">
-  <img src="Text-Enhancer/meaning-mint/public/screenshots/overview.png" alt="App overview showing original and enhanced text with highlight" width="900">
+  <img src="Text-Enhancer/meaning-mint/public/newscreenshots/screenshot1.png" alt="App overview showing original and enhanced text with highlight" width="900">
 </p>
 <p align="center">
-  <img src="Text-Enhancer/meaning-mint/public/screenshots/analysis.png" alt="Analysis results and detailed change log" width="900">
+  <img src="Text-Enhancer/meaning-mint/public/newscreenshots/screenshot2.png" alt="Analysis results and detailed change log" width="900">
 </p>
 
 ## Quality Checks (Frontend)
