@@ -43,7 +43,10 @@ function detectMood(text: string): string {
 }
 
 export async function enhanceText(text: string): Promise<EnhancementResult> {
-  const resp = await fetch("http://localhost:3000/enhance", {
+  const API_BASE =
+    (typeof import.meta !== "undefined" && import.meta.env && import.meta.env.VITE_API_URL) ||
+    "https://meaningpreservingtextenhancer.onrender.com";
+  const resp = await fetch(`${API_BASE}/enhance`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ text }),
