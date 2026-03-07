@@ -4,6 +4,11 @@ AI-powered meaning-preserving text enhancer with:
 - Backend: Node.js + Express using Gemini API (gemini-2.5-flash, gemini-embedding-001)
 - Frontend: React + Vite (shadcn/ui)
 
+## Live Demo
+- Frontend: https://text-enhancer-11uc.onrender.com
+- Backend API: https://meaningpreservingtextenhancer.onrender.com/
+- Deployed via Render (Static Site for frontend, Web Service for backend).
+
 ## Getting Started
 
 ### Prerequisites
@@ -40,7 +45,7 @@ AI-powered meaning-preserving text enhancer with:
 ## Notes
 - `.env` is ignored by git; do not commit secrets.
 - CORS is enabled on the backend for local dev.
-- The frontend calls `http://localhost:3000/enhance` directly.
+- Production frontend calls `https://meaningpreservingtextenhancer.onrender.com/enhance`.
 
 ## GitHub
 Recommended repo name: `text-enhancer` (hyphens instead of spaces).
