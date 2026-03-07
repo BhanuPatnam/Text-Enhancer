@@ -6,6 +6,10 @@ const { cosineSimilarity } = require('../utils/similarity');
 const { detectChanges } = require('../utils/diff');
 const { classifyChange } = require('../utils/classifier');
 
+router.get('/', (req, res) => {
+    res.json({ status: 'ok', endpoint: '/enhance', method: 'POST', usage: 'POST { text }' });
+});
+
 router.post('/', async (req, res) => {
     const { text } = req.body;
 
