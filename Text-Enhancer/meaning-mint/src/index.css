@@ -63,11 +63,29 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-background text-foreground font-sans antialiased selection:bg-primary/10 selection:text-primary;
     font-family: var(--font-sans);
   }
 
   h1, h2, h3 {
     font-family: var(--font-serif);
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.15);
+    color: hsl(var(--primary));
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted-foreground/10 rounded-full transition-colors hover:bg-muted-foreground/20;
   }
 }

@@ -31,35 +31,42 @@ const TextPanel = ({
   const Icon = readOnly ? BookOpen : PenLine;
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between mb-2.5">
-        <div className="flex items-center gap-2">
-          <Icon className="w-3.5 h-3.5 text-muted-foreground/60" />
-          <h2 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+    <div className="flex flex-col h-full group/panel">
+      <div className="flex items-center justify-between mb-3 px-1">
+        <div className="flex items-center gap-2.5">
+          <div className={`p-1.5 rounded-lg ${readOnly ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground'} transition-colors duration-300`}>
+            <Icon className="w-4 h-4" />
+          </div>
+          <h2 className="text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground/80">
             {title}
           </h2>
         </div>
         {readOnly && value && (
           <button
             onClick={handleCopy}
-            className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors duration-200 px-2.5 py-1 rounded-md hover:bg-secondary border border-transparent hover:border-border"
+            className="inline-flex items-center gap-2 text-xs font-medium text-muted-foreground hover:text-primary hover:bg-primary/5 transition-all duration-300 px-3 py-1.5 rounded-full border border-transparent hover:border-primary/10"
           >
-            {copied ? <Check className="w-3.5 h-3.5 text-success" /> : <Copy className="w-3.5 h-3.5" />}
-            {copied ? "Copied" : "Copy"}
+            {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+            {copied ? "Copied!" : "Copy"}
           </button>
         )}
       </div>
-      <div className="relative flex-1 rounded-lg border bg-card shadow-sm overflow-hidden transition-shadow duration-200 hover:shadow-md">
+      <div className={`relative flex-1 rounded-2xl border bg-card/50 backdrop-blur-sm shadow-sm overflow-hidden transition-all duration-500 
+        ${readOnly ? 'border-primary/5 hover:border-primary/20' : 'border-border hover:border-primary/30 focus-within:border-primary/40 focus-within:ring-4 focus-within:ring-primary/5'} 
+        hover:shadow-xl hover:shadow-primary/5`}>
         {readOnly ? (
-          <div className="p-5 h-64 overflow-y-auto text-sm leading-relaxed whitespace-pre-wrap">
+          <div className="p-6 h-72 overflow-y-auto text-base leading-relaxed whitespace-pre-wrap font-serif">
             {highlightedContent !== undefined && highlightedContent !== null
               ? highlightedContent
               : value
               ? value
               : (
-                <span className="text-muted-foreground/50 italic">
-                  Enhanced text will appear here…
-                </span>
+                <div className="flex flex-col items-center justify-center h-full text-muted-foreground/40 space-y-2">
+                  <BookOpen className="w-8 h-8 opacity-20" />
+                  <span className="text-sm italic">
+                    Enhanced text will appear here…
+                  </span>
+                </div>
               )
             }
           </div>
@@ -69,17 +76,18 @@ const TextPanel = ({
             onChange={(e) => onChange?.(e.target.value)}
             placeholder={placeholder}
             maxLength={maxLength}
-            className="w-full h-64 p-5 text-sm leading-relaxed bg-transparent resize-none outline-none placeholder:text-muted-foreground/40 focus:ring-2 focus:ring-primary/15 rounded-lg transition-shadow duration-200"
+            className="w-full h-72 p-6 text-base leading-relaxed bg-transparent resize-none outline-none placeholder:text-muted-foreground/30 font-serif transition-all duration-300"
           />
         )}
+        
+        {!readOnly && (
+          <div className="absolute bottom-4 right-4 px-2 py-1 rounded-md bg-background/50 backdrop-blur-md border border-border/50">
+            <span className="text-[10px] font-bold text-muted-foreground/60 tabular-nums uppercase tracking-tighter">
+              {value.length.toLocaleString()} / {maxLength.toLocaleString()}
+            </span>
+          </div>
+        )}
       </div>
-      {!readOnly && (
-        <div className="flex justify-end mt-2">
-          <span className="text-[11px] text-muted-foreground/50 tabular-nums font-medium">
-            {value.length.toLocaleString()} / {maxLength.toLocaleString()}
-          </span>
-        </div>
-      )}
     </div>
   );
 };

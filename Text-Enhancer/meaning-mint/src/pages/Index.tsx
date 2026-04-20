@@ -47,36 +47,62 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative overflow-hidden">
+      {/* Background Decorative Elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+        <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[120px]" />
+        <div className="absolute top-[20%] -right-[5%] w-[30%] h-[30%] bg-primary/3 rounded-full blur-[100px]" />
+        <div className="absolute -bottom-[10%] left-[20%] w-[35%] h-[35%] bg-primary/5 rounded-full blur-[110px]" />
+      </div>
+
       {/* Header */}
-      <header className="border-b bg-card">
-        <div className="max-w-5xl mx-auto px-6 py-6 flex items-start gap-4">
-          <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10 shrink-0 mt-0.5">
-            <FileText className="w-5 h-5 text-primary" />
+      <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-xl">
+        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-primary shadow-sm shadow-primary/20">
+              <Sparkles className="w-5 h-5 text-primary-foreground" />
+            </div>
+            <div>
+              <h1 className="text-lg font-bold text-foreground tracking-tight leading-none">
+                Meaning Mint
+              </h1>
+              <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider mt-0.5">
+                AI Text Enhancer
+              </p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-xl font-bold text-foreground tracking-tight">
-              Meaning-Preserving AI Notes Enhancer
-            </h1>
-            <p className="text-sm text-muted-foreground mt-1 max-w-lg">
-              Improve grammar, clarity, and readability while preserving your original meaning — built for researchers and students.
-            </p>
+          <div className="hidden sm:flex items-center gap-6">
+            <nav className="flex items-center gap-1">
+              <button className="px-3 py-1.5 text-sm font-medium text-foreground hover:bg-secondary rounded-md transition-colors">Workspace</button>
+              <button className="px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">History</button>
+            </nav>
           </div>
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-6 py-10 space-y-10">
+      <main className="max-w-5xl mx-auto px-6 py-12 space-y-12 relative">
+        {/* Hero Section */}
+        <section className="text-center space-y-4 mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
+            Refine your writing, <span className="text-primary">preserve your voice.</span>
+          </h2>
+          <p className="text-muted-foreground max-w-xl mx-auto text-base">
+            Professional grammar correction and clarity improvements that stay true to your original meaning.
+          </p>
+        </section>
+
         {/* Text Panels */}
-        <section>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <section className="relative group">
+          <div className="absolute -inset-1 bg-gradient-to-r from-primary/10 via-transparent to-primary/10 rounded-[20px] blur-sm opacity-50 group-hover:opacity-100 transition duration-1000"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
             <TextPanel
-              title="Original Text"
+              title="Input Draft"
               value={inputText}
               onChange={setInputText}
               placeholder="Paste or type your text here…"
             />
             <TextPanel
-              title="Enhanced Text"
+              title="Polished Output"
               value={result?.enhancedText || ""}
               readOnly
               highlightedContent={renderHighlightedText()}
@@ -85,26 +111,30 @@ const Index = () => {
         </section>
 
         {/* Enhance Button */}
-        <div className="flex flex-col items-center gap-3">
+        <div className="flex flex-col items-center gap-4 py-4">
           <button
             onClick={handleEnhance}
             disabled={!inputText.trim() || loading}
-            className="group inline-flex items-center gap-2.5 px-8 py-3 rounded-lg text-sm font-semibold
-              bg-primary text-primary-foreground shadow-sm
-              hover:shadow-md hover:brightness-110 active:scale-[0.98]
-              transition-all duration-200 ease-out
-              disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none disabled:hover:brightness-100"
+            className="group relative inline-flex items-center gap-3 px-10 py-4 rounded-full text-base font-bold
+              bg-primary text-primary-foreground shadow-lg shadow-primary/25
+              hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 active:scale-[0.98]
+              transition-all duration-300 ease-out
+              disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none disabled:translate-y-0"
           >
             {loading ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
+              <Loader2 className="w-5 h-5 animate-spin" />
             ) : (
-              <Sparkles className="w-4 h-4 transition-transform duration-200 group-hover:scale-110" />
+              <>
+                <span>Enhance Writing</span>
+                <Sparkles className="w-5 h-5 transition-transform group-hover:rotate-12 group-hover:scale-110" />
+              </>
             )}
-            {loading ? "Analyzing…" : "Enhance & Validate Meaning"}
+            <div className="absolute inset-0 rounded-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
           </button>
-          {!result && !loading && (
-            <p className="text-xs text-muted-foreground/70">
-              Try: "Teh research definately shows that irregardless of teh results, its important."
+          
+          {!loading && !result && (
+            <p className="text-xs text-muted-foreground animate-pulse">
+              Press Cmd+Enter to enhance
             </p>
           )}
         </div>

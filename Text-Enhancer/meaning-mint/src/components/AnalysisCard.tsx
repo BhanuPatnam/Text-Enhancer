@@ -1,4 +1,4 @@
-import { ChevronDown, CheckCircle2, AlertTriangle, Info } from "lucide-react";
+import { ChevronDown, CheckCircle2, AlertTriangle, Info, Target, Zap, Activity, MessageSquare } from "lucide-react";
 import { useState } from "react";
 import {
   Tooltip,
@@ -33,49 +33,71 @@ const AnalysisCard = ({
 }: AnalysisCardProps) => {
   const [mistakesOpen, setMistakesOpen] = useState(false);
 
+  const getIcon = (label: string) => {
+    const l = label.toLowerCase();
+    if (l.includes('theme')) return <Target className="w-3.5 h-3.5" />;
+    if (l.includes('mood')) return <Activity className="w-3.5 h-3.5" />;
+    if (l.includes('grammar')) return <Zap className="w-3.5 h-3.5" />;
+    return <MessageSquare className="w-3.5 h-3.5" />;
+  };
+
   return (
-    <div className="rounded-lg border bg-card shadow-sm p-6 transition-shadow duration-200 hover:shadow-md">
-      <h3 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-5 pb-3 border-b">
-        {title}
-      </h3>
-      <div className="space-y-3.5">
-        {items.map((item) => (
-          <div key={item.label} className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground flex items-center gap-1.5">
-              {item.label}
-              {item.tooltip && (
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Info className="w-3.5 h-3.5 text-muted-foreground/40 cursor-help" />
-                  </TooltipTrigger>
-                  <TooltipContent side="top" className="max-w-xs text-xs">
-                    {item.tooltip}
-                  </TooltipContent>
-                </Tooltip>
-              )}
-            </span>
-            <span className="font-medium text-foreground text-right max-w-[55%] truncate">{item.value}</span>
-          </div>
-        ))}
+    <div className="rounded-2xl border bg-card/50 backdrop-blur-sm shadow-sm p-8 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:border-primary/10">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-1.5 h-6 bg-primary rounded-full" />
+        <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground/80">
+          {title}
+        </h3>
+      </div>
+      
+      <div className="space-y-5">
+        <div className="grid gap-4">
+          {items.map((item) => (
+            <div key={item.label} className="flex items-center justify-between group/item">
+              <span className="text-sm text-muted-foreground flex items-center gap-2.5 transition-colors group-hover/item:text-foreground">
+                <span className="p-1 rounded-md bg-muted transition-colors group-hover/item:bg-primary/10 group-hover/item:text-primary">
+                  {getIcon(item.label)}
+                </span>
+                {item.label}
+                {item.tooltip && (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Info className="w-3.5 h-3.5 text-muted-foreground/30 cursor-help hover:text-primary transition-colors" />
+                    </TooltipTrigger>
+                    <TooltipContent side="top" className="max-w-xs text-xs">
+                      {item.tooltip}
+                    </TooltipContent>
+                  </Tooltip>
+                )}
+              </span>
+              <span className="text-sm font-semibold text-foreground text-right max-w-[55%] truncate bg-muted/30 px-2.5 py-1 rounded-lg">
+                {item.value}
+              </span>
+            </div>
+          ))}
+        </div>
 
         {correctionsCount !== undefined && (
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Corrections Applied</span>
-            <span className="inline-flex items-center justify-center min-w-[24px] h-6 px-2 rounded-full bg-primary/10 text-primary text-xs font-semibold">
+          <div className="flex items-center justify-between p-4 rounded-xl bg-primary/5 border border-primary/10">
+            <span className="text-sm font-medium text-primary flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4" />
+              Improvements Applied
+            </span>
+            <span className="inline-flex items-center justify-center min-w-[28px] h-7 px-2.5 rounded-lg bg-primary text-primary-foreground text-xs font-bold shadow-sm shadow-primary/20">
               {correctionsCount}
             </span>
           </div>
         )}
 
         {readabilityScore !== undefined && (
-          <div className="pt-3 border-t">
-            <div className="flex items-center justify-between text-sm mb-2">
-              <span className="text-muted-foreground">Readability Score</span>
-              <span className="font-semibold text-foreground tabular-nums">{readabilityScore}/100</span>
+          <div className="pt-2">
+            <div className="flex items-center justify-between text-sm mb-3">
+              <span className="text-muted-foreground font-medium">Readability Score</span>
+              <span className="font-bold text-foreground tabular-nums bg-muted/50 px-2 py-0.5 rounded text-xs">{readabilityScore}%</span>
             </div>
-            <div className="h-2 rounded-full bg-secondary overflow-hidden">
+            <div className="h-2.5 rounded-full bg-secondary overflow-hidden p-0.5 border border-border/50">
               <div
-                className="h-full rounded-full transition-all duration-700 ease-out"
+                className="h-full rounded-full transition-all duration-1000 ease-out shadow-sm"
                 style={{
                   width: `${readabilityScore}%`,
                   backgroundColor: readabilityScore >= 70
@@ -90,13 +112,13 @@ const AnalysisCard = ({
         )}
 
         {similarityScore !== undefined && (
-          <div className="pt-3 border-t">
-            <div className="flex items-center justify-between text-sm mb-3">
-              <span className="text-muted-foreground flex items-center gap-1.5">
-                Semantic Similarity
+          <div className="pt-2 border-t border-dashed border-border/50">
+            <div className="flex items-center justify-between text-sm mb-4">
+              <span className="text-muted-foreground font-medium flex items-center gap-2">
+                Semantic Fidelity
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Info className="w-3.5 h-3.5 text-muted-foreground/40 cursor-help" />
+                    <Info className="w-3.5 h-3.5 text-muted-foreground/30 cursor-help" />
                   </TooltipTrigger>
                   <TooltipContent side="top" className="max-w-xs text-xs">
                     Measures how closely the enhanced text preserves the original meaning. Above 85% is considered excellent.
